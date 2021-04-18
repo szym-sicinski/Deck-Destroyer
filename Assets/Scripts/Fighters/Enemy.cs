@@ -13,6 +13,7 @@ public class Enemy : Fighter
     {
         base.Start();
         behaviour = GetComponent<EnemyBehaviour>();
+        initialPos = transform.position;
     }
     public override void MakeTurn()
     {

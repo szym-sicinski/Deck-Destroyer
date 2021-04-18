@@ -39,25 +39,33 @@ public class Player : Fighter
     private FightUIManager fightUIManager;
     private SpawnManager spawnManager;
 
-    private List<int> deck = new List<int>(); //Array of cards id
+    private List<int> deck = new List<int>(); //list of cards id
     private List<int> trash = new List<int>();
-    [SerializeField]private Hand hand;
 
+    [SerializeField] private Hand hand;
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        gameObject.SetActive(false);
+    }
     protected override void Start()
+    {
+        return;
+    }
+    private void OnEnable()
     {
         base.Start();
         fightUIManager = FindObjectOfType<FightUIManager>();
         spawnManager = FindObjectOfType<SpawnManager>();
+        if (deck.Count == 0)
+            MakeStarterDeck();
 
-        for (int i = 0; i < 5; i++)
-        {
-            deck.Add(0);
-            deck.Add(1);
-        }
-        deck.Add(2);
-        deck.Add(3);
+        FindHand();
 
-        deck.Shuffle();
+    }
+
+    private void FindHand()
+    {
         if (FindObjectsOfType<Player>().Length > 0)
         {
             Hand[] potentialHands = FindObjectsOfType<Hand>();
@@ -78,11 +86,23 @@ public class Player : Fighter
         else
             hand = FindObjectOfType<Hand>();
     }
+
     public void CastCardEffect()
     {
         targetingSystem.CastCardEffect();
     }
+    public void MakeStarterDeck()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            deck.Add(0);
+            deck.Add(1);
+        }
+        deck.Add(2);
+        deck.Add(3);
 
+        deck.Shuffle();
+    }
     // Eq:
 
     //private int wornWeapon = 0;

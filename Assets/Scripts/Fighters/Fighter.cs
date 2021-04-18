@@ -50,7 +50,7 @@ abstract public class Fighter : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         targetingSystem = FindObjectOfType<TargetingSystem>();
         particleSpawner = FindObjectOfType<ParticleSpawner>();
-        initialPos = transform.position;
+
         currentHP = maxHP;
         healthBar.SetMaxVal(maxHP);
 
@@ -78,6 +78,11 @@ abstract public class Fighter : MonoBehaviour
     protected abstract void EndRunEvent();
     protected void Update()
     {
+        Run();
+    }
+
+    private void Run()
+    {
         if (isMoving)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetMovePos, MOVE_SPEED * Time.deltaTime);
@@ -88,7 +93,7 @@ abstract public class Fighter : MonoBehaviour
                 {
                     isMoving = false;
                     animator.SetBool("isRunning", false);
-                    EndRunEvent(); //Enemy will end turn, player will unblock end turn button
+                    EndRunEvent(); //Enemy will end turn, player will unblock GUI
                     FlipSprite();
                 }
             }
@@ -101,8 +106,6 @@ abstract public class Fighter : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     public void BuffStr(int str)

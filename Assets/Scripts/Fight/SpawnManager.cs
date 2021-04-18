@@ -19,23 +19,27 @@ public class SpawnManager : MonoBehaviour
 
     private const int maxNumberOfEnemies = 3;
 
-    void Awake()
+    void Start() //CHANGED ORDER OF SCRIPT EXECUTION
     {
         saveManager = FindObjectOfType<SaveManager>();
         Player[] players = FindObjectsOfType<Player>();
-        if (players.Length == 0) //Instantiation for tests
-        {
-            Instantiate(playersPrefabs[0], playersSpawnSets.transform.Find("For 2").Find("Spawner 1").position, Quaternion.identity, playerTeam.transform);
-            Instantiate(playersPrefabs[1], playersSpawnSets.transform.Find("For 2").Find("Spawner 2").position, Quaternion.identity, playerTeam.transform);
-        }
+        //if (players.Length == 0) //Instantiation for tests
+        //{
+        //    Instantiate(playersPrefabs[0], playersSpawnSets.transform.Find("For 2").Find("Spawner 1").position, Quaternion.identity, playerTeam.transform);
+        //    Instantiate(playersPrefabs[1], playersSpawnSets.transform.Find("For 2").Find("Spawner 2").position, Quaternion.identity, playerTeam.transform);
+        //}
 
-
+        //Debug.Break();
         Transform chosenSpawnSet = playersSpawnSets.transform.Find("For " + players.Length);
-
+        Debug.Log("Loading Players");
         for (int i = 0; i < players.Length; i++)
         {
             Vector3 spawnPos = chosenSpawnSet.Find("Spawner " + (i + 1)).position;
-            Instantiate(playersPrefabs[i], spawnPos, Quaternion.identity, playerTeam.transform);
+            //players[i].gameObject.SetActive(true);
+            players[i].transform.position = spawnPos;
+            players[i].InitialPos = spawnPos;
+            players[i].transform.parent = playerTeam.transform;
+            Debug.Log(players[i].InitialPos + ", " + spawnPos);
         }
 
 
