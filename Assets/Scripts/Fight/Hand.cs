@@ -8,17 +8,17 @@ public class Hand : MonoBehaviour
 {
     [SerializeField] private TMP_Text powerDisplay;
     [SerializeField] private FightUIManager fightUIManager;
-    public void DestroyChildren()
+    public void DestroyChildren() // Destroy cards in hand. Called in animation
     {
         for (int i = 0; i < transform.childCount; i++)
             Destroy(transform.GetChild(i).gameObject);
     }
 
-    internal void SetPowerDisplayValue(int power)
+    public void SetPowerDisplayValue(int power) //Sets text of display as given parameter
     {
         powerDisplay.text = power.ToString();
     }
-    private void BlockEndTurnButton()
+    private void BlockEndTurnButton() //Blocks end turn button. Called in animation
     {
         fightUIManager.EndTurnButtonInteraction(true);
     }

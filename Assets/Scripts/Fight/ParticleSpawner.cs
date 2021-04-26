@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ParticlesType
+public enum ParticlesType // Enum for diffrent types of particles
 {
     BLOOD,
     HEAL,
@@ -16,7 +16,7 @@ public class ParticleSpawner : MonoBehaviour
     [SerializeField] private GameObject BuffStrParticles;
     [SerializeField] private GameObject BuffDexParticles;
 
-    public void SpawnParticles(Vector3 position, ParticlesType type)
+    public void SpawnParticles(Vector3 position, ParticlesType type) //Spawning particles of given type at given position and destroys them in 1.5 second
     {
         GameObject particles;
         switch (type)

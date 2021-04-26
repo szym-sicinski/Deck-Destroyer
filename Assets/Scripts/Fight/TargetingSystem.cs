@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Target
+public enum Target //Types of targets
 {
     ENEMIES,
     ALLIES,
@@ -14,7 +14,7 @@ public class TargetingSystem : MonoBehaviour
     public Fighter[] targets;
     public Card chosenCard;
     public Fighter chosenFighter;
-    public void MarkTargets(Card card, Target target = Target.ENEMIES)
+    public void MarkTargets(Card card, Target target = Target.ENEMIES) //Marks fighters as targets and saves them in array. Saves card so later can cast effect 
     {
         UnmarkTargets();
         if (target == Target.NONE)
@@ -36,7 +36,7 @@ public class TargetingSystem : MonoBehaviour
         foreach (Fighter fighter in targets)
             fighter.MarkAsTarget(true);
     }
-    public void UnmarkTargets()
+    public void UnmarkTargets() //Unmarks marked targets and forgets saved card
     {
         if(targets != null)
             foreach (Fighter target in targets)
@@ -44,7 +44,7 @@ public class TargetingSystem : MonoBehaviour
         targets = null;
         chosenCard = null;
     }
-    public void CastCardEffect()
+    public void CastCardEffect() //Casts card effect, refreshes power display, destroys card and unmarks targets
     {
         chosenCard.Effect();
         chosenCard.owner.RefreshPowerDisplay();
@@ -52,7 +52,7 @@ public class TargetingSystem : MonoBehaviour
         UnmarkTargets();
     }
 
-    public Fighter FindRandomFighter(Target target)
+    public Fighter FindRandomFighter(Target target) //Returns random fighter regarding to chosen type of target
     {
         switch (target)
         {
@@ -75,14 +75,16 @@ public class TargetingSystem : MonoBehaviour
         }
     }
 
-    public void ChooseFighter(Fighter fighter)
+    public void ChooseFighter(Fighter fighter) // Called after clicked on Fighter. Saves fighter given as parameter. Sets owner of card to run if card says so, if not casts card effect
     {
         chosenFighter = fighter;
         if (!chosenCard.isRunning)
             CastCardEffect();
+        else
+            chosenCard.owner.SetRunTarget(chosenFighter.transform.position);
     }
 
-    public Fighter[] FindAllFighters(Target target)
+    public Fighter[] FindAllFighters(Target target) //Returns array containing fighters matching given target type
     {
         switch (target)
         {

@@ -1,1 +1,0 @@
-public enum EquipmentType {ARMOR, SHIELD, HELMET, WEAPON }

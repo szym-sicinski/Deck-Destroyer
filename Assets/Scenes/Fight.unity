@@ -446,9 +446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a38d317eb722b44b30c6072c67d5cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panels:
-  - {fileID: 2069114103}
-  - {fileID: 1331111596}
+  hands:
+  - {fileID: 2069114109}
+  - {fileID: 1331111602}
   endTurnButton: {fileID: 529085215}
 --- !u!1 &1165673381
 GameObject:
@@ -575,12 +575,18 @@ MonoBehaviour:
   targets: []
   chosenCard: {fileID: 0}
   chosenFighter: {fileID: 0}
---- !u!1 &1331111596 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 287777099, guid: 3773743e0c6a35949bf24ac7452366d1,
+--- !u!114 &1331111602 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1331111597, guid: 3773743e0c6a35949bf24ac7452366d1,
     type: 3}
   m_PrefabInstance: {fileID: 2039424741}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eee081c9a802de47a8e145fa334741e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1402968871
 GameObject:
   m_ObjectHideFlags: 0
@@ -4865,12 +4871,18 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1638153413908493935, guid: 3773743e0c6a35949bf24ac7452366d1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3773743e0c6a35949bf24ac7452366d1, type: 3}
---- !u!1 &2069114103 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6148319752713417944, guid: 3773743e0c6a35949bf24ac7452366d1,
+--- !u!114 &2069114109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2069114104, guid: 3773743e0c6a35949bf24ac7452366d1,
     type: 3}
   m_PrefabInstance: {fileID: 2039424741}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eee081c9a802de47a8e145fa334741e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2121812864 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7568850486967197353, guid: e7dc54cd517aa3948921a11c7352beaa,

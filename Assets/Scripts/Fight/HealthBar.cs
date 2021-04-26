@@ -14,16 +14,16 @@ public class HealthBar : MonoBehaviour
         slider = GetComponent<Slider>();
     }
 
-    public void ChangeSliderColor()
+    public void ChangeSliderColor()// Called on value change
     {
         bar.color = gradient.Evaluate(slider.normalizedValue);
     }
 
-    internal void SetVal(int hp)
+    public void SetVal(int hp)
     {
         slider.value = hp;
     }
-    internal void SetMaxVal(int hp)
+    public void SetMaxVal(int hp) //Starting setup for Health bar
     {
         slider.maxValue = hp;
         slider.value = hp;

@@ -3,22 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(Enemy))] //Behaviour specific for enemies
 public class EnemyBehaviour : MonoBehaviour
 {
 
     private Enemy owner;
     private const int BUFFS_COUNT = 4;
-    private const int ATTACKS_COUNT = 2;
+    private const int ATTACKS_COUNT = 2; //How many attacks and buffs are implemented
 
     private Fighter target;
-    private int dmgToDeal;
+    private int dmgToDeal; //I need to store that and deal that dmg with animation
+
     private void Start()
     {
         owner = GetComponent<Enemy>();
     }
 
-    public void CastBuff()
+    public void CastBuff() //Cast buff to random enemy
     {
         switch (UnityEngine.Random.Range(0, BUFFS_COUNT))
         {
@@ -42,7 +43,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
     public void CastDmg()
     {
-        switch (UnityEngine.Random.Range(0, ATTACKS_COUNT - 1))
+        switch (UnityEngine.Random.Range(0, ATTACKS_COUNT))
         {
             case 0:
                 AttackSinglePlayer();
@@ -56,12 +57,12 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    public void DealDmgTrigger()
+    public void DealDmgTrigger() //Called from animation
     {
         target.TakeDmg(dmgToDeal);
     }
     #region Attacks
-    private void AttackAllPlayers()
+    private void AttackAllPlayers() //FIXME: WAIT
     {
         Fighter[] fighters = owner.targetingSystem.FindAllFighters(Target.ALLIES);
         int dmg = (int) Math.Round(owner.CurrentStr / 1.5f) + 2;

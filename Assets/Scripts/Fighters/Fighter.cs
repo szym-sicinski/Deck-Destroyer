@@ -63,19 +63,17 @@ abstract public class Fighter : MonoBehaviour
     }
     public void AddBlock(int block)
     {
-        currentDef += block + dex;
+        currentDef = Math.Max(0,block + currentDex)+ currentDef; //in case current dex < 0
         animator.SetTrigger("block");
     }
     private void OnMouseDown()
     {
         if (isMarked)
         {
-            if (targetingSystem.chosenCard.isRunning)
-                targetingSystem.chosenCard.owner.SetRunTarget(transform.position);
             targetingSystem.ChooseFighter(this);
         }
     }
-    protected abstract void EndRunEvent();
+    protected abstract void EndRunEvent(); //Diffrent behaviour of Enemy and Player. Enemy will end turn, player will unblock GUI
     protected void Update()
     {
         Run();
@@ -138,11 +136,11 @@ abstract public class Fighter : MonoBehaviour
     }
     protected void Die()
     {
-        animator.SetTrigger("die");
         MarkAsTarget(false);
+        animator.SetTrigger("die");
         isAlive = false;
     }
-    protected void StopAnimator()
+    protected void StopAnimator() //Caled from Die animation
     {
         animator.enabled = false;
         turnManager.EndFightCheck();
@@ -151,7 +149,7 @@ abstract public class Fighter : MonoBehaviour
     {
         spriteRenderer.flipX = !spriteRenderer.flipX;
     }
-    public void MarkAsTarget(bool isMarking)
+    public void MarkAsTarget(bool isMarking) //Making highlight visible and saving isMarked var
     {
         if (isAlive)
             highlight.GetComponent<SpriteRenderer>().enabled = isMarked = isMarking;
@@ -164,18 +162,14 @@ abstract public class Fighter : MonoBehaviour
         animator.SetBool("isRunning", true);
     }
 
-    public void ReturnFromAttack()
+    public void ReturnFromAttack() //Called from animation
     {
         FlipSprite();
         targetMovePos = initialPos;
         isMoving = true;
     }
-    public void SpawnParticles()
-    {
-        particleSpawner.SpawnParticles(targetMovePos, ParticlesType.BLOOD);
-    }
 
-    public void EndTurnTrigger()
+    public void EndTurnTrigger() //Called both from animation and code
     {
         turnManager.EndTurn();
     }

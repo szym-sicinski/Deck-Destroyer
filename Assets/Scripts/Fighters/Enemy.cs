@@ -4,21 +4,20 @@ using UnityEngine;
 public class Enemy : Fighter
 {
     private EnemyBehaviour behaviour;
-    private const int CHANCE_TO_ATTACK = 75;
+    private const int CHANCE_TO_ATTACK = 75; //% of chance to attack
 
-    public void SetDifficulty(int difficulty)
+    public void SetDifficulty(int difficulty) //Sets difficulty of enemy. Base: 10HP, 1 str & dex
     {
-        maxHP =  10 + (int) (difficulty * 0.6f);
+        maxHP = currentHP = 10 + (int) (difficulty * 0.6f);
         healthBar.SetMaxVal(maxHP);
         str = currentStr = 1 + (int)(difficulty * 0.5f);
-        currentDex = dex = 1 + (int)(difficulty * 0.5f);
+        dex = currentDex = 1 + (int)(difficulty * 0.5f);
     }
     protected override void OnEnable()
     {
         base.OnEnable();
         behaviour = GetComponent<EnemyBehaviour>();
         initialPos = transform.position;
-        currentHP = maxHP;
     }
     public override void MakeTurn()
     {
@@ -36,7 +35,7 @@ public class Enemy : Fighter
             StartCoroutine(nameof(WaitAndCast));
         }
     }
-    IEnumerator WaitAndCast()
+    IEnumerator WaitAndCast() //This is subtitue of animation I dont have
     {
         yield return new WaitForSeconds(1.75f);
         behaviour.CastBuff();

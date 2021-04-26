@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
-    //private LinkedList<Fighter> fighters = new LinkedList<Fighter>();
-
     private Player[] players;
     private Enemy[] enemies;
     private readonly Queue<Enemy> enemiesQueue = new Queue<Enemy>();
@@ -20,32 +18,25 @@ public class TurnManager : MonoBehaviour
         players = FindObjectsOfType<Player>();
         enemies = FindObjectsOfType<Enemy>();
         saveManager = FindObjectOfType<SaveManager>();
-        //LoadEnemies();
     }
 
     private void Update()
     {
-        if(isStopped)
+        if(isStopped) //Because isStopped is true on start this will start turns loop
         {
             isStopped = false;
             NextTurn();
         }
     }
 
-    private void LoadEnemies()
+    private void LoadEnemies() //Enqueue all enemies
     {
-        //fighters.AddFirst(FindObjectOfType<Player>());
-        //foreach (Fighter enemy in FindObjectsOfType<Enemy>())
-        //{
-        //    fighters.AddLast(enemy);
-        //}
-
         foreach (Enemy enemy in enemies)
             enemiesQueue.Enqueue(enemy);
     }
     public void NextTurn()
     {
-        if(enemiesQueue.Count == 0)
+        if(enemiesQueue.Count == 0) //If queue of enemies is empty that means its player turn. During first loop queue is empty so first turn is always player
         {
             MakePlayersTurn();
             LoadEnemies();
@@ -54,15 +45,9 @@ public class TurnManager : MonoBehaviour
         {
             enemiesQueue.Dequeue().MakeTurn();
         }
-
-
-        //fighters.First.Value.MakeTurn();
-        //fighters.RemoveFirst();
-        //if (fighters.Count == 0)
-        //    LoadEnemies();
     }
 
-    private void MakePlayersTurn()
+    private void MakePlayersTurn() //Triggers filling hand of players 
     {
         foreach (Player player in players)
             player.MakeTurn();
@@ -72,7 +57,7 @@ public class TurnManager : MonoBehaviour
     {
         isStopped = true;
     }
-    public void EndFightCheck()
+    public void EndFightCheck() //Checks conditions of ending fight
     {
         int aliveCount = 0;
 
@@ -86,7 +71,7 @@ public class TurnManager : MonoBehaviour
             WinFight();
             return;
         }
-
+        aliveCount = 0;
         foreach (Player player in players)
         {
             if (player.IsAlive)
@@ -106,27 +91,7 @@ public class TurnManager : MonoBehaviour
 
     private void WinFight()
     {
-        saveManager.PlayersEnabled(false);
+        saveManager.PlayersEnabled(false); //Disable heroes
         SceneManager.LoadScene(1);
     }
-    //public void KickFighter(Fighter fighter)
-    //{
-    //    LinkedListNode<Fighter> head = fighters.First;
-    //    if(fighters.Count == 1)
-    //    {
-    //        fighters.RemoveFirst();
-    //        LoadEnemies();
-    //        return;
-    //    }
-    //    while (head != null)
-    //    {
-    //        var nextNode = head.Next;
-    //        if (head.Value == fighter)
-    //        {
-    //            fighters.Remove(head);
-    //            break;
-    //        }
-    //        head = nextNode;
-    //    }
-    //}
 }
