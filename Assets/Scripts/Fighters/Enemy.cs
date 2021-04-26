@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 public class Enemy : Fighter
 {
@@ -7,13 +8,17 @@ public class Enemy : Fighter
 
     public void SetDifficulty(int difficulty)
     {
-
+        maxHP =  10 + (int) (difficulty * 0.6f);
+        healthBar.SetMaxVal(maxHP);
+        str = currentStr = 1 + (int)(difficulty * 0.5f);
+        currentDex = dex = 1 + (int)(difficulty * 0.5f);
     }
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
         behaviour = GetComponent<EnemyBehaviour>();
         initialPos = transform.position;
+        currentHP = maxHP;
     }
     public override void MakeTurn()
     {
@@ -28,12 +33,12 @@ public class Enemy : Fighter
         }
         else
         {
-            StartCoroutine("WaitAndCast");
+            StartCoroutine(nameof(WaitAndCast));
         }
     }
     IEnumerator WaitAndCast()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.75f);
         behaviour.CastBuff();
     }
 

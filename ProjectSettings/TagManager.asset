@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Left Panel
   - Right Panel
+  - Player Female
+  - Player Male
   layers:
   - Default
   - TransparentFX

@@ -6,10 +6,10 @@ abstract public class Fighter : MonoBehaviour
 {
     const float MOVE_SPEED = 7f;
     const float DISTANCE_MARGIN = 1.5f;
-    [SerializeField] private int maxHP;
-    [SerializeField] private int dex;
-    [SerializeField] private int str;
-    [SerializeField] HealthBar healthBar;
+    [SerializeField] protected int maxHP;
+    [SerializeField] protected int dex;
+    [SerializeField] protected int str;
+    [SerializeField] protected HealthBar healthBar;
 
     protected int currentDex;
     protected int currentStr;
@@ -43,7 +43,7 @@ abstract public class Fighter : MonoBehaviour
     public Vector3 InitialPos { get => initialPos; set => initialPos = value; }
     #endregion
 
-    protected virtual void Start()
+    protected virtual void OnEnable()
     {
         turnManager = FindObjectOfType<TurnManager>();
         animator = GetComponent<Animator>();
@@ -51,7 +51,7 @@ abstract public class Fighter : MonoBehaviour
         targetingSystem = FindObjectOfType<TargetingSystem>();
         particleSpawner = FindObjectOfType<ParticleSpawner>();
 
-        currentHP = maxHP;
+
         healthBar.SetMaxVal(maxHP);
 
     }
@@ -141,11 +141,11 @@ abstract public class Fighter : MonoBehaviour
         animator.SetTrigger("die");
         MarkAsTarget(false);
         isAlive = false;
-        turnManager.EndFightCheck();
     }
     protected void StopAnimator()
     {
         animator.enabled = false;
+        turnManager.EndFightCheck();
     }
     protected void FlipSprite()
     {

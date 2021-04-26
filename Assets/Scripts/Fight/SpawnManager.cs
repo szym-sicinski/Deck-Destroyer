@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,13 +16,13 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> cards = new List<GameObject>();
 
-    private SaveManager saveManager;
+    //private SaveManager saveManager;
 
-    private const int maxNumberOfEnemies = 3;
+    private const int maxNumberOfEnemies = 1;
 
     void Start() //CHANGED ORDER OF SCRIPT EXECUTION
     {
-        saveManager = FindObjectOfType<SaveManager>();
+        SaveManager saveManager = FindObjectOfType<SaveManager>();
         Player[] players = FindObjectsOfType<Player>();
         //if (players.Length == 0) //Instantiation for tests
         //{
@@ -30,28 +31,34 @@ public class SpawnManager : MonoBehaviour
         //}
 
         //Debug.Break();
+
+
         Transform chosenSpawnSet = playersSpawnSets.transform.Find("For " + players.Length);
-        Debug.Log("Loading Players");
         for (int i = 0; i < players.Length; i++)
         {
             Vector3 spawnPos = chosenSpawnSet.Find("Spawner " + (i + 1)).position;
-            //players[i].gameObject.SetActive(true);
             players[i].transform.position = spawnPos;
             players[i].InitialPos = spawnPos;
-            players[i].transform.parent = playerTeam.transform;
-            Debug.Log(players[i].InitialPos + ", " + spawnPos);
+            //players[i].transform.parent = playerTeam.transform;
+            //Debug.Log(players[i].InitialPos + ", " + spawnPos);
         }
 
 
         int numberOfEnemies = UnityEngine.Random.Range(1, maxNumberOfEnemies + 1);
+        
 
         chosenSpawnSet = enemiesSpawnSets.transform.Find("For " + numberOfEnemies);
-
+        int difficulty = saveManager.level / ((int) Math.Round(numberOfEnemies - 0.5f) + 1);
+        if (saveManager.isHardFight)
+        {
+            saveManager.isHardFight = false;
+            difficulty += (int)Math.Round(difficulty / 4f);
+        }
         for (int i = 0; i < numberOfEnemies; i++)
         {
             Vector3 spawnPos = chosenSpawnSet.Find("Spawner " + (i + 1)).position;
-            GameObject enemy = Instantiate(enemiesPrefabs[UnityEngine.Random.Range(0, 0)], spawnPos , Quaternion.identity, enemyTeam.transform) as GameObject; //UnityEngine.Random.Range(0, enemiesPrefabs.Length)
-
+            Enemy enemy = Instantiate(enemiesPrefabs[UnityEngine.Random.Range(0, 0)], spawnPos , Quaternion.identity, enemyTeam.transform).GetComponent<Enemy>(); //UnityEngine.Random.Range(0, enemiesPrefabs.Length)
+            enemy.SetDifficulty(difficulty);
         }
     }
     public void SpawnCard(int id, Transform panel, Player player)

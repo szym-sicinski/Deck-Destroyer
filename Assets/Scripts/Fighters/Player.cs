@@ -9,16 +9,16 @@ public static class IListExtensions
     /// <summary>
     /// Shuffles the element order of the specified list.
     /// </summary>
-    public static void Shuffle<T>(this IList<T> ts)
+    public static void Shuffle<T>(this IList<T> list)
     {
-        var count = ts.Count;
-        var last = count - 1;
-        for (var i = 0; i < last; ++i)
+        int count = list.Count;
+        int last = count - 1;
+        for (int i = 0; i < last; ++i)
         {
-            var r = UnityEngine.Random.Range(i, count);
-            var tmp = ts[i];
-            ts[i] = ts[r];
-            ts[r] = tmp;
+            int r = UnityEngine.Random.Range(i, count);
+            T tmp = list[i];
+            list[i] = list[r];
+            list[r] = tmp;
         }
     }
 }
@@ -39,8 +39,8 @@ public class Player : Fighter
     private FightUIManager fightUIManager;
     private SpawnManager spawnManager;
 
-    private List<int> deck = new List<int>(); //list of cards id
-    private List<int> trash = new List<int>();
+    private readonly List<int> deck = new List<int>(); //list of cards id
+    private readonly List<int> trash = new List<int>(); 
 
     [SerializeField] private Hand hand;
     private void Awake()
@@ -48,13 +48,10 @@ public class Player : Fighter
         DontDestroyOnLoad(gameObject);
         gameObject.SetActive(false);
     }
-    protected override void Start()
+
+    protected override void OnEnable()
     {
-        return;
-    }
-    private void OnEnable()
-    {
-        base.Start();
+        base.OnEnable();
         fightUIManager = FindObjectOfType<FightUIManager>();
         spawnManager = FindObjectOfType<SpawnManager>();
         if (deck.Count == 0)
@@ -103,6 +100,12 @@ public class Player : Fighter
 
         deck.Shuffle();
     }
+
+    internal void Rest()
+    {
+        currentHP = Math.Max(MaxHP, currentHP + (int)(currentHP * 0.35)); //Heal by 35%
+    }
+
     // Eq:
 
     //private int wornWeapon = 0;
@@ -204,7 +207,13 @@ public class Player : Fighter
     }
     public override void MakeTurn()
     {
+        if(currentHP <= 0)
+        {
+            return;
+        }
         currentPower = power;
+        if (trash.Count + deck.Count != 12)
+            Debug.LogError("CARDS LEAK");
         RefreshPowerDisplay();
         fightUIManager.PlayerTurnStart();
         FillHand();

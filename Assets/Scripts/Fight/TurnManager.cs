@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
@@ -11,12 +12,14 @@ public class TurnManager : MonoBehaviour
     private Player[] players;
     private Enemy[] enemies;
     private readonly Queue<Enemy> enemiesQueue = new Queue<Enemy>();
+    private SaveManager saveManager;
 
     private bool isStopped = true;
     private void Start()
     {
         players = FindObjectsOfType<Player>();
         enemies = FindObjectsOfType<Enemy>();
+        saveManager = FindObjectOfType<SaveManager>();
         //LoadEnemies();
     }
 
@@ -103,7 +106,8 @@ public class TurnManager : MonoBehaviour
 
     private void WinFight()
     {
-        throw new NotImplementedException();
+        saveManager.PlayersEnabled(false);
+        SceneManager.LoadScene(1);
     }
     //public void KickFighter(Fighter fighter)
     //{
