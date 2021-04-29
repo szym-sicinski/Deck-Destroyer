@@ -23,13 +23,14 @@ abstract public class Card : MonoBehaviour
     abstract public void Effect(); //what card does. if character wont run to the target you need to destroy card gameobject at en of that function
 
     public abstract void Click();
-     //Call Effect function when overridining this function if don't want selecting target. 
+    //Call Effect function when overridining this function if don't want selecting target. 
     //use owner.targetingSystem.MarkTargets(this, target); if want single choosable target
     private void OnDestroy() //Before Destroy add card id to trash of owner
     {
-        owner.AddToTrash(id);
+        if (owner != null)
+            owner.AddToTrash(id);
     }
-    protected void Start()
+    protected void Awake()
     {
         valueDisplay.text = value.ToString();
         titleDisplay.text = cardName.ToString();

@@ -8,19 +8,23 @@ public class SpawnManager : MonoBehaviour //CHANGED ORDER OF SCRIPT EXECUTION. I
     [SerializeField] private GameObject playersSpawnSets;
     [SerializeField] private GameObject enemiesSpawnSets;
 
-    [SerializeField] private GameObject[] playersPrefabs; //MAIN PLAYER FIRST
+    [SerializeField] private GameObject[] playersPrefabs;
     [SerializeField] private GameObject[] enemiesPrefabs;
 
     [SerializeField] private GameObject playerTeam;
     [SerializeField] private GameObject enemyTeam;
 
-    [SerializeField] private List<GameObject> cards = new List<GameObject>(); //List of cards prefabs. ID OF CARD MUST MATCH INDEX
+    //[SerializeField] public GameObject[] cards ; //List of cards prefabs. ID OF CARD MUST MATCH INDEX
 
     //private SaveManager saveManager;
+
+    private Deck deck;
 
     void Start() //Spawns players to correct position. Spawns random number enemies and sets their difficulty. 
     {
         SaveManager saveManager = FindObjectOfType<SaveManager>();
+        deck = FindObjectOfType<Deck>();
+
         Player[] players = FindObjectsOfType<Player>();
         int maxNumberOfEnemies = enemiesSpawnSets.transform.childCount;
 
@@ -51,7 +55,7 @@ public class SpawnManager : MonoBehaviour //CHANGED ORDER OF SCRIPT EXECUTION. I
     }
     public void SpawnCard(int id, Transform panel, Player player) //spawns card of given id at specific panel and sets ownership of card
     {
-        GameObject card = Instantiate(cards[id], panel.position, Quaternion.identity,panel) as GameObject;
+        GameObject card = Instantiate(deck.cards[id], panel.position, Quaternion.identity,panel) as GameObject;
         card.GetComponent<Card>().owner = player;
     }
 }

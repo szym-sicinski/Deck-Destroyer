@@ -49,7 +49,8 @@ public class EnemyBehaviour : MonoBehaviour
                 AttackSinglePlayer();
                 break;
             case 1:
-                AttackAllPlayers();
+                StartCoroutine(nameof(AttackAllPlayers));
+                //AttackAllPlayers();
                 break;
             default:
                 Debug.LogError("Cast attack out of Range");
@@ -62,8 +63,9 @@ public class EnemyBehaviour : MonoBehaviour
         target.TakeDmg(dmgToDeal);
     }
     #region Attacks
-    private void AttackAllPlayers() //FIXME: WAIT
+    IEnumerable AttackAllPlayers() //FIXME: WAIT
     {
+        
         Fighter[] fighters = owner.targetingSystem.FindAllFighters(Target.ALLIES);
         int dmg = (int) Math.Round(owner.CurrentStr / 1.5f) + 2;
         foreach (Fighter fighter in fighters)
@@ -71,6 +73,8 @@ public class EnemyBehaviour : MonoBehaviour
             fighter.TakeDmg(dmg);
             owner.particleSpawner.SpawnParticles(fighter.transform.position,ParticlesType.BLOOD);
         }
+        yield return new WaitForSeconds(1.8f);
+        owner.EndTurnTrigger();
     }
 
     private void AttackSinglePlayer()
