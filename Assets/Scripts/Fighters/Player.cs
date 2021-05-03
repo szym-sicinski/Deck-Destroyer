@@ -59,6 +59,7 @@ public class Player : Fighter
         spawnManager = FindObjectOfType<SpawnManager>();
 
         FindHand();
+        deck.Shuffle();
 
     }
 
@@ -83,6 +84,11 @@ public class Player : Fighter
         }
         else
             hand = FindObjectOfType<Hand>();
+    }
+
+    public void AddCard(int idOfChosenCard)
+    {
+        deck.Add(idOfChosenCard);
     }
 
     public void ResetStats()
@@ -122,8 +128,8 @@ public class Player : Fighter
             return;
         }
         currentPower = power;
-        if (trash.Count + deck.Count != 12)
-            Debug.LogError("CARDS LEAK");
+        //if (trash.Count + deck.Count != 12)
+        //    Debug.LogError("CARDS LEAK");
         RefreshPowerDisplay();
         fightUIManager.PlayerTurnStart();
         FillHand();

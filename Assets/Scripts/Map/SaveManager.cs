@@ -11,9 +11,10 @@ public class SaveManager : MonoBehaviour
 
     [SerializeField] private GameObject[] playersPrefabs;
     public int level;
-    public Player[] players;
+    [HideInInspector] public Player[] players;
     public static SaveManager instance;
     public bool isHardFight;
+    public int money;
 
     private void Awake()
     {
