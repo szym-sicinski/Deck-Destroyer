@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,8 +17,18 @@ public class MapGUIManager : MonoBehaviour
 
     [SerializeField] private GameObject[] buttonsSpawners;
     [SerializeField] private GameObject[] buttonsPrefabs;
-    public LocationType clickLocation;
+
+    [SerializeField] private Canvas restInfo;
+    [SerializeField] private Canvas heroesInfo;
+
+    [SerializeField] private GameObject femaleInfo;
+    [SerializeField] private GameObject maleInfo;
+
+
+
     private SaveManager saveManager;
+
+    private const int CHANCE_TO_NORMAL_FIGHT = 2;
 
     private void Start()
     {
@@ -34,7 +45,7 @@ public class MapGUIManager : MonoBehaviour
         switch (numberOfLocations)
         {
             case 1: //Simple spawn location at random spawner
-                Instantiate(buttonsPrefabs[UnityEngine.Random.Range(0, buttonsPrefabs.Length)], buttonsSpawners[UnityEngine.Random.Range(0, 3)].transform);
+                Instantiate(buttonsPrefabs[RandomLocation()], buttonsSpawners[UnityEngine.Random.Range(0, 3)].transform);
                 break;
             case 2: //Select spawner excluded from spawning, spawn random location at others spawners
                 int excludedSpawnPointIndex = UnityEngine.Random.Range(0, 3);
@@ -42,13 +53,13 @@ public class MapGUIManager : MonoBehaviour
                 {
                     if (i == excludedSpawnPointIndex)
                         continue;
-                    Instantiate(buttonsPrefabs[UnityEngine.Random.Range(0, buttonsPrefabs.Length)], buttonsSpawners[i].transform);
+                    Instantiate(buttonsPrefabs[RandomLocation()], buttonsSpawners[i].transform);
                 }
                 break;
             case 3: //Simple fill spawners with random locations
                 foreach (GameObject spawner in buttonsSpawners)
                 {
-                    Instantiate(buttonsPrefabs[UnityEngine.Random.Range(0, buttonsPrefabs.Length)], spawner.transform);
+                    Instantiate(buttonsPrefabs[RandomLocation()], spawner.transform);
                 }
                 break;
             default:
@@ -57,8 +68,17 @@ public class MapGUIManager : MonoBehaviour
         }
     }
 
+    private int RandomLocation()
+    {
+        if (UnityEngine.Random.Range(1, 101) < CHANCE_TO_NORMAL_FIGHT)
+            return 0;
+        else
+            return UnityEngine.Random.Range(1, buttonsPrefabs.Length);
+    }
+
     public void LocationClick(LocationType type)
     {
+        saveManager.level++;
         switch (type)
         {
             case LocationType.NORMAL_FIGHT:
@@ -72,28 +92,26 @@ public class MapGUIManager : MonoBehaviour
                 SceneManager.LoadScene(3);
                 break;
             case LocationType.CAMPFIRE: //Heal, show heal info, respawn locations
-                foreach(Player player in saveManager.players)
+                foreach (Player player in saveManager.players)
                 {
-                    player.Rest();
+                    player.Heal(false);
                 }
-                //TODO: Heal and inform
-                foreach(GameObject spawner in buttonsSpawners) // Destroy all children of spawners
+                restInfo.gameObject.SetActive(true);
+                foreach (GameObject spawner in buttonsSpawners) // Destroy all children of spawners
                 {
-                    for(int i = 0;i<spawner.transform.childCount; i++)
+                    for (int i = 0; i < spawner.transform.childCount; i++)
                     {
                         Destroy(spawner.transform.GetChild(i).gameObject);
                     }
                 }
-
                 SpawnLocations();
                 break;
             case LocationType.RANDOM:
-                LocationClick((LocationType)UnityEngine.Random.Range(0,5));
+                LocationClick((LocationType)UnityEngine.Random.Range(0, 5));
                 break;
             default:
                 Debug.LogError("Invalid location type clicked");
                 break;
         }
     }
-
 }

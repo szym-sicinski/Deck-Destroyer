@@ -48,9 +48,9 @@ public class EnemyBehaviour : MonoBehaviour
             case 0:
                 AttackSinglePlayer();
                 break;
-            case 1:
-                StartCoroutine(nameof(AttackAllPlayers));
-                //AttackAllPlayers();
+            case 1: //FIXME
+                //StartCoroutine(nameof(AttackAllPlayers));
+                AttackSinglePlayer();
                 break;
             default:
                 Debug.LogError("Cast attack out of Range");
@@ -63,17 +63,19 @@ public class EnemyBehaviour : MonoBehaviour
         target.TakeDmg(dmgToDeal);
     }
     #region Attacks
-    IEnumerable AttackAllPlayers() //FIXME: WAIT
+    public IEnumerable AttackAllPlayers() //FIXME: WAIT
     {
-        
+
         Fighter[] fighters = owner.targetingSystem.FindAllFighters(Target.ALLIES);
-        int dmg = (int) Math.Round(owner.CurrentStr / 1.5f) + 2;
+        int dmg = (int)Math.Round(owner.CurrentStr / 1.5f) + 2;
         foreach (Fighter fighter in fighters)
         {
             fighter.TakeDmg(dmg);
-            owner.particleSpawner.SpawnParticles(fighter.transform.position,ParticlesType.BLOOD);
+            //owner.particleSpawner.SpawnParticles(fighter.transform.position,ParticlesType.BLOOD);
         }
+        Debug.Log("Wait");
         yield return new WaitForSeconds(1.8f);
+        Debug.Log("End Turn");
         owner.EndTurnTrigger();
     }
 
@@ -95,9 +97,13 @@ public class EnemyBehaviour : MonoBehaviour
     private void Heal()
     {
         Fighter target = owner.targetingSystem.FindRandomFighter(Target.ENEMIES);
-        int heal = (int)Math.Round(owner.MaxHP / 15f * 100f);
-        target.Heal(heal);
-        Debug.Log(target.ToString() + " healed");
+        if (target.CurrentHP / target.MaxHP > 0.65f) //If target is healthy just buff his str
+            target.BuffStr(3);
+        else
+        {
+            target.Heal();
+            Debug.Log(target.ToString() + " healed");
+        }
     }
 
     private void BuffDex()

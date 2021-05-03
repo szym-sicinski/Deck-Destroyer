@@ -51,14 +51,19 @@ abstract public class Fighter : MonoBehaviour
         targetingSystem = FindObjectOfType<TargetingSystem>();
         particleSpawner = FindObjectOfType<ParticleSpawner>();
 
-
-        healthBar.SetMaxVal(maxHP);
-
     }
-    public void Heal(int heal)
+    public void Heal(int heal, bool spawnParticles = true) //Heal by val
     {
-        currentHP = Math.Max(maxHP, currentHP += heal);
-        particleSpawner.SpawnParticles(transform.position, ParticlesType.HEAL);
+        currentHP = Math.Min(maxHP, currentHP += heal);
+        if(spawnParticles)
+            particleSpawner.SpawnParticles(transform.position, ParticlesType.HEAL);
+        healthBar.SetVal(currentHP);
+    }
+    public void Heal(bool spawnParticles = true) //Heal by 35%
+    {
+        currentHP = Math.Min(maxHP, (int) Math.Round(currentHP * 0.35f + currentHP));
+        if(spawnParticles)
+            particleSpawner.SpawnParticles(transform.position, ParticlesType.HEAL);
         healthBar.SetVal(currentHP);
     }
     public void AddBlock(int block)

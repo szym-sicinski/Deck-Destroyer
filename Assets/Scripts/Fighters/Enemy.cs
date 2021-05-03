@@ -10,6 +10,7 @@ public class Enemy : Fighter
     {
         maxHP = currentHP = 10 + (int) (difficulty * 0.6f);
         healthBar.SetMaxVal(maxHP);
+        healthBar.SetVal(currentHP);
         str = currentStr = 1 + (int)(difficulty * 0.5f);
         dex = currentDex = 1 + (int)(difficulty * 0.5f);
     }

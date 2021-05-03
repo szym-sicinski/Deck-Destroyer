@@ -54,25 +54,37 @@ public class TargetingSystem : MonoBehaviour
 
     public Fighter FindRandomFighter(Target target) //Returns random fighter regarding to chosen type of target
     {
+        Fighter[] potentialTargets;
         switch (target)
         {
+          
             case Target.ALLIES:
                 {
-                    Fighter[] potentialTargets = FindObjectsOfType<Player>();
-                    return potentialTargets[Random.Range(0, potentialTargets.Length)];
+                    potentialTargets = FindObjectsOfType<Player>();
+                    break;
+                    //return potentialTargets[Random.Range(0, potentialTargets.Length)];
                 }
             case Target.ENEMIES:
                 {
-                    Fighter[] potentialTargets = FindObjectsOfType<Enemy>();
-                    return potentialTargets[Random.Range(0, potentialTargets.Length)];
+                    potentialTargets = FindObjectsOfType<Enemy>();
+                    break;
+                    //return potentialTargets[Random.Range(0, potentialTargets.Length)];
                 }
             case Target.ALL:
                 {
-                    Fighter[] potentialTargets = FindObjectsOfType<Fighter>();
-                    return potentialTargets[Random.Range(0, potentialTargets.Length)];
+                    potentialTargets = FindObjectsOfType<Fighter>();
+                    break;
+                    // potentialTargets[Random.Range(0, potentialTargets.Length)];
                 }
             default: return null;
         }
+        List<Fighter> result = new List<Fighter>();
+        foreach(Fighter potentialTarget in potentialTargets)
+        {
+            if (potentialTarget.IsAlive)
+                result.Add(potentialTarget);
+        }
+        return result[UnityEngine.Random.Range(0,result.Count)];
     }
 
     public void ChooseFighter(Fighter fighter) // Called after clicked on Fighter. Saves fighter given as parameter. Sets owner of card to run if card says so, if not casts card effect
@@ -86,21 +98,32 @@ public class TargetingSystem : MonoBehaviour
 
     public Fighter[] FindAllFighters(Target target) //Returns array containing fighters matching given target type
     {
+        Fighter[] potentialTargets;
         switch (target)
         {
             case Target.ALLIES:
                 {
-                    return FindObjectsOfType<Player>();
+                    potentialTargets = FindObjectsOfType<Player>();
+                    break;
                 }
             case Target.ENEMIES:
                 {
-                    return FindObjectsOfType<Enemy>();
+                    potentialTargets = FindObjectsOfType<Enemy>();
+                    break;
                 }
             case Target.ALL:
                 {
-                    return FindObjectsOfType<Fighter>();
+                    potentialTargets = FindObjectsOfType<Fighter>();
+                    break;
                 }
             default: return null;
         }
+        List<Fighter> result = new List<Fighter>();
+        foreach (Fighter potentialTarget in potentialTargets)
+        {
+            if (potentialTarget.IsAlive)
+                result.Add(potentialTarget);
+        }
+        return result.ToArray();
     }
 }

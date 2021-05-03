@@ -84,7 +84,7 @@ MonoBehaviour:
   particleSpawner: {fileID: 0}
   highlight: {fileID: 8943632087254005098}
   side: 0
-  power: 3
+  power: 2
   currentPower: 0
   hand: {fileID: 0}
 --- !u!95 &7080555117432928369
@@ -353,12 +353,12 @@ PrefabInstance:
     - target: {fileID: 3560947333671692376, guid: d54a9c36eaa77254c9d300f0b04521a7,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3560947333671692376, guid: d54a9c36eaa77254c9d300f0b04521a7,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4228227222892103603, guid: d54a9c36eaa77254c9d300f0b04521a7,
         type: 3}

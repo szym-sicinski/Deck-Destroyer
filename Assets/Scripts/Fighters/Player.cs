@@ -40,18 +40,17 @@ public class Player : Fighter
     private SpawnManager spawnManager;
 
     private readonly List<int> deck = new List<int>(); //list of cards id
-    private readonly List<int> trash = new List<int>(); 
-
+    private readonly List<int> trash = new List<int>();
+    private readonly int START_CARDS_COUNT = 3;
     [SerializeField] private Hand hand;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        gameObject.SetActive(false);
-    }
-    private void Start()
-    {
         MakeStarterDeck();
         currentHP = maxHP;
+        healthBar.SetMaxVal(currentHP);
+        healthBar.SetVal(currentHP);
+        gameObject.SetActive(false);
     }
     protected override void OnEnable()
     {
@@ -86,6 +85,13 @@ public class Player : Fighter
             hand = FindObjectOfType<Hand>();
     }
 
+    public void ResetStats()
+    {
+        currentDef = 0;
+        currentDex = dex;
+        currentStr = str;
+    }
+
     public void CastCardEffect()
     {
         targetingSystem.CastCardEffect();
@@ -102,13 +108,6 @@ public class Player : Fighter
 
         deck.Shuffle();
     }
-
-    internal void Rest()
-    {
-        currentHP = Math.Max(MaxHP, currentHP + (int)(currentHP * 0.35)); //Heal by 35%
-    }
-
-
 
     public int Power { get => power; set => power = value; }
     public int Gold { get => gold; set => gold = value; }
@@ -136,7 +135,7 @@ public class Player : Fighter
     }
     private void FillHand()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < START_CARDS_COUNT; i++)
         {
             if (deck.Count == 0)
             {
@@ -164,5 +163,14 @@ public class Player : Fighter
     protected override void EndRunEvent()
     {
         fightUIManager.LockingGUI(true);
+    }
+    public void ChangeMaxHP(int hpDelta)
+    {
+        maxHP += hpDelta;
+        healthBar.SetMaxVal(maxHP);
+    }
+    private void OnDestroy()
+    {
+        Debug.Log("Player destroyed");
     }
 }

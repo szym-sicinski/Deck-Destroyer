@@ -16,7 +16,7 @@ public class HelpCanvasManager : MonoBehaviour
     {
         Scene activeScene = SceneManager.GetActiveScene();
 
-        MarkAsCurrentTab(activeScene.buildIndex - 1); //Set proper to scene chosen card on start
+        MarkAsCurrentTab(activeScene.buildIndex - 1); //Set proper tab regarding to scene
 
         string key = activeScene.name + " seen help";
         if (PlayerPrefs.GetInt(key) != 1)

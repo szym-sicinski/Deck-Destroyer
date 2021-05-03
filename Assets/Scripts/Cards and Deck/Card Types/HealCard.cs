@@ -16,6 +16,6 @@ public class HealCard : Card
 
     public override void Effect()
     {
-        owner.targetingSystem.chosenFighter.Heal(healValue);
+        owner.targetingSystem.chosenFighter.Heal();
     }
 }
