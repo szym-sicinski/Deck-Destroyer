@@ -7,27 +7,28 @@ public class StatsDisplayManager : MonoBehaviour
 {
     private SaveManager saveManager;
     [SerializeField] private Canvas statsCanvas;
+    [SerializeField] private TMP_Text levelUpText;
 
-    [SerializeField] GameObject maleInfo;
-    [SerializeField] TMP_Text maleCurrentHp;
-    [SerializeField] TMP_Text maleMaxHp;
-    [SerializeField] TMP_Text maleStr;
-    [SerializeField] TMP_Text maleDex;
+    [SerializeField] private GameObject maleInfo;
+    [SerializeField] private TMP_Text maleCurrentHp;
+    [SerializeField] private TMP_Text maleMaxHp;
+    [SerializeField] private TMP_Text maleStr;
+    [SerializeField] private TMP_Text maleDex;
 
-    [SerializeField] GameObject femaleInfo;
-    [SerializeField] TMP_Text femaleCurrentHp;
-    [SerializeField] TMP_Text femaleMaxHp;
-    [SerializeField] TMP_Text femaleStr;
-    [SerializeField] TMP_Text femaleDex;
+    [SerializeField] private GameObject femaleInfo;
+    [SerializeField] private TMP_Text femaleCurrentHp;
+    [SerializeField] private TMP_Text femaleMaxHp;
+    [SerializeField] private TMP_Text femaleStr;
+    [SerializeField] private TMP_Text femaleDex;
 
 
 
-    private void Start()
+    private void Awake()
     {
         saveManager = FindObjectOfType<SaveManager>();
     }
 
-    public void ShowStats()
+    public void ShowStats(bool isLevelUp = false)
     {
         statsCanvas.gameObject.SetActive(true);
 
@@ -50,6 +51,7 @@ public class StatsDisplayManager : MonoBehaviour
                 femaleDex.text = player.CurrentDex.ToString();
             }
         }
-
+        if (isLevelUp && levelUpText != null)
+            levelUpText.gameObject.SetActive(true);
     }
 }

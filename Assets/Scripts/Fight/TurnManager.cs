@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
+
+
+    private FightUIManager fightUIManager;
     private Player[] players;
     private Enemy[] enemies;
     private readonly Queue<Enemy> enemiesQueue = new Queue<Enemy>();
@@ -18,6 +21,7 @@ public class TurnManager : MonoBehaviour
         players = FindObjectsOfType<Player>();
         enemies = FindObjectsOfType<Enemy>();
         saveManager = FindObjectOfType<SaveManager>();
+        fightUIManager = FindObjectOfType<FightUIManager>();
     }
 
     private void Update()
@@ -57,41 +61,49 @@ public class TurnManager : MonoBehaviour
     {
         isStopped = true;
     }
-    public void EndFightCheck() //Checks conditions of ending fight
+    public void EndFightCheck(Fighter fighter) //Checks conditions of ending fight
     {
         int aliveCount = 0;
-
-        foreach (Enemy enemy in enemies)
+        if (fighter is Player) //If its player check only if all players are dead
         {
-            if (enemy.IsAlive)
-                aliveCount++;
+            foreach (Player player in players)
+            {
+                if (player.IsAlive)
+                    aliveCount++;
+            }
+            if (aliveCount == 0)
+            {
+                LoseFight();
+                return;
+            }
         }
-        if (aliveCount == 0)
+        else //else check if all enemies are dead
         {
-            WinFight();
-            return;
-        }
-        aliveCount = 0;
-        foreach (Player player in players)
-        {
-            if (player.IsAlive)
-                aliveCount++;
-        }
-        if (aliveCount == 0)
-        {
-            LoseFight();
-            return;
+            foreach (Enemy enemy in enemies)
+            {
+                if (enemy.IsAlive)
+                    aliveCount++;
+            }
+            if (aliveCount == 0)
+            {
+                WinFight();
+                return;
+            }
         }
     }
 
     private void LoseFight()
     {
-        throw new NotImplementedException();
+        fightUIManager.ShowEndScreen(false);
+        foreach (Player player in saveManager.players)
+            Destroy(player.gameObject);
+        Destroy(saveManager.gameObject);
     }
 
     private void WinFight()
     {
+        fightUIManager.ShowEndScreen(true);
+        saveManager.bGiveExp = true;
         saveManager.PlayersEnabled(false); //Disable heroes
-        SceneManager.LoadScene(1);
     }
 }

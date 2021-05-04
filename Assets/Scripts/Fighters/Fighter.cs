@@ -148,7 +148,7 @@ abstract public class Fighter : MonoBehaviour
     protected void StopAnimator() //Caled from Die animation
     {
         animator.enabled = false;
-        turnManager.EndFightCheck();
+        turnManager.EndFightCheck(this);
     }
     protected void FlipSprite()
     {

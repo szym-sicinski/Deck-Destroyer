@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,19 +17,15 @@ public class MapGUIManager : MonoBehaviour
 {
 
     [SerializeField] private GameObject[] buttonsSpawners;
-    [SerializeField] private GameObject[] buttonsPrefabs;
+    [SerializeField] private GameObject[] buttonsPrefabs; //FIRST NORMAL FIGHT
 
     [SerializeField] private Canvas restInfo;
-    [SerializeField] private Canvas heroesInfo;
-
-    [SerializeField] private GameObject femaleInfo;
-    [SerializeField] private GameObject maleInfo;
 
 
 
     private SaveManager saveManager;
 
-    private const int CHANCE_TO_NORMAL_FIGHT = 2;
+    private const int CHANCE_TO_NORMAL_FIGHT = 60;
 
     private void Start()
     {

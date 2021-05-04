@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,12 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
 {
     private TurnManager turnManager;
     private TargetingSystem targetingSystem;
+    private SaveManager saveManager;
+
+    [SerializeField] private Canvas lostScreen;
+
+    [SerializeField] private Canvas winScreen;
+    [SerializeField] private TMP_Text goldReward;
 
     [SerializeField] private Hand[] hands;
     [SerializeField] private Button endTurnButton;
@@ -15,6 +22,7 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
     {
         turnManager = FindObjectOfType<TurnManager>();
         targetingSystem = FindObjectOfType<TargetingSystem>();
+        saveManager = FindObjectOfType<SaveManager>();
     }
     private void ChangeInteractableOfCards(Transform transform, bool interactable = false) // Turns on/off all cards from panel
     {
@@ -40,21 +48,38 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
         foreach (Hand hand in hands)
         {
             hand.GetComponent<Animator>().SetBool("isHidden", isPanelHidden);
-            ChangeInteractableOfCards(hand.transform, !isPanelHidden);
+            ChangeInteractableOfCards(hand.transform, !isPanelHidden); //In case some cards stay from other round
         }
     }
 
-    internal void EndTurnButtonInteraction(bool isInteractable) //Changes interactable of end turn button
+    public void EndTurnButtonInteraction(bool isInteractable) //Changes interactable of end turn button
     {
         endTurnButton.interactable = isInteractable;
     }
 
-    internal void LockingGUI(bool bLocking) // Locks/unlocks interactable of end turn button and cards in hand
+    public void LockingGUI(bool bLocking) // Locks/unlocks interactable of end turn button and cards in hand
     {
         EndTurnButtonInteraction(bLocking);
         foreach (Hand hand in hands)
         {
             ChangeInteractableOfCards(hand.transform, bLocking);
         }
+    }
+
+    internal void ShowLevelUpScreen()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ShowEndScreen(bool isVictoryscreen)
+    {
+        if (isVictoryscreen)
+        {
+            winScreen.gameObject.SetActive(true);
+            goldReward.SetText(saveManager.RewardGold().ToString());
+
+        }
+        else
+            lostScreen.gameObject.SetActive(true);
     }
 }

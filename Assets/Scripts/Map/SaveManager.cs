@@ -15,10 +15,16 @@ public class SaveManager : MonoBehaviour
     public static SaveManager instance;
     public bool isHardFight;
     public int money;
+    public bool bGiveExp;
+
+    private const int GOLD_MIN = 25;
+    private const int GOLD_MAX = 75;
+    private const float GOLD_BOOST_HARD_FIGHT = 1.5f; //50% of gold boost after hard fight
+
 
     private void Awake()
     {
-        //TODO: SINGLETON
+        // SINGLETON
         if (instance == null)
             instance = this;
         else
@@ -35,16 +41,6 @@ public class SaveManager : MonoBehaviour
     {
         mapGUI = FindObjectOfType<MapGUIManager>();
 
-        //TODO: SINGLETON
-        //SaveManager[] managers = FindObjectsOfType<SaveManager>();
-        //if (managers != null)
-        //{
-        //    foreach (SaveManager manager in managers)
-        //    {
-        //        Destroy(manager.gameObject);
-        //    }
-        //}
-        //else
         SceneManager.sceneUnloaded += OnSceneExit;
         SceneManager.activeSceneChanged += OnSceneChange;
         singleton = this;
@@ -64,6 +60,10 @@ public class SaveManager : MonoBehaviour
         switch (scene2.buildIndex)
         {
             case 1: // Change to map scene
+                if(bGiveExp)
+                {
+                    GiveEXP();
+                }
                 ResetStats();
                 break;
             case 2: // Change to Fight scene
@@ -73,13 +73,26 @@ public class SaveManager : MonoBehaviour
                 break;
         }
     }
-
+    private void GiveEXP() //Gives exp and if no level up then loads map scene
+    {
+        int exp = 1 + (isHardFight ? 5 : 0);
+        StatsDisplayManager statsDisplayManager = FindObjectOfType<StatsDisplayManager>();
+        foreach(Player player in players)
+        {
+            if (player.GiveExp(exp))
+            {
+                statsDisplayManager.ShowStats(true);
+            }
+        }
+    }
     private void ResetStats()
     {
         foreach (Player player in players)
         {
             player.ResetStats();
         }
+        isHardFight = false;
+        bGiveExp = false;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -92,5 +105,14 @@ public class SaveManager : MonoBehaviour
         {
             player.gameObject.SetActive(enabled);
         }
+    }
+
+    public int RewardGold() //Rewards player with gold AND RETURNS GOLD VALUE
+    {
+        int moneyDelta = UnityEngine.Random.Range(GOLD_MIN, GOLD_MAX);
+        if (isHardFight)
+            moneyDelta =(int) GOLD_BOOST_HARD_FIGHT * moneyDelta;
+        money += moneyDelta;
+        return moneyDelta;
     }
 }

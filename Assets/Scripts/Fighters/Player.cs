@@ -26,7 +26,7 @@ public static class IListExtensions
 
 public class Player : Fighter
 {
-    private enum Side
+    private enum Side //Default side of hand on screen
     {
         LEFT,
         RIGHT
@@ -35,13 +35,16 @@ public class Player : Fighter
     [SerializeField] private Side side;
     public int power;
     public int currentPower;
-    private int gold;
+    private int experience;
     private FightUIManager fightUIManager;
     private SpawnManager spawnManager;
 
     private readonly List<int> deck = new List<int>(); //list of cards id
     private readonly List<int> trash = new List<int>();
-    private readonly int START_CARDS_COUNT = 3;
+
+    private const int START_CARDS_COUNT = 3;
+    private const int LEVEL_UP_EXP = 1;
+
     [SerializeField] private Hand hand;
     private void Awake()
     {
@@ -86,6 +89,51 @@ public class Player : Fighter
             hand = FindObjectOfType<Hand>();
     }
 
+    public bool GiveExp(int exp) //gives exp AND RETURNS TRUE IF LEVELUP
+    {
+        experience += exp;
+
+        if(experience >= LEVEL_UP_EXP)
+        {
+            while (experience >= LEVEL_UP_EXP)
+            {
+                LevelUp();
+                experience -= LEVEL_UP_EXP;
+            } 
+            return true;
+        }
+        return false;
+    }
+
+    private void LevelUp()
+    {
+        switch (UnityEngine.Random.Range(0,3)) //3 possible upgrades
+        {
+            case 0: //Max health by 20%
+                ChangeMaxHP(0.2f);
+                break;
+            case 1: //+2 dex
+                ChangeDex(2);
+                break;
+            case 2: //+3 str
+                ChangeStr(3);
+                break;
+            default:
+                break;
+        }
+        Debug.Log(tag + "Leveled Up");
+    }
+
+    private void ChangeStr(int str)
+    {
+        Str = currentStr = str;
+    }
+
+    private void ChangeDex(int dex)
+    {
+        Dex = currentDex = dex;
+    }
+
     public void AddCard(int idOfChosenCard)
     {
         deck.Add(idOfChosenCard);
@@ -104,7 +152,7 @@ public class Player : Fighter
     }
     public void MakeStarterDeck()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             deck.Add(0);
             deck.Add(1);
@@ -112,11 +160,10 @@ public class Player : Fighter
         deck.Add(2);
         deck.Add(3);
 
-        deck.Shuffle();
+        //deck.Shuffle();
     }
 
     public int Power { get => power; set => power = value; }
-    public int Gold { get => gold; set => gold = value; }
     public void RefreshPowerDisplay()
     {
         hand.SetPowerDisplayValue(currentPower);
@@ -173,6 +220,11 @@ public class Player : Fighter
     public void ChangeMaxHP(int hpDelta)
     {
         maxHP += hpDelta;
+        healthBar.SetMaxVal(maxHP);
+    }
+    public void ChangeMaxHP(float hpDelta) //Hp delta % of boosted maxhp for example 0.2 = 20 %
+    {
+        maxHP += (int) (hpDelta * maxHP);
         healthBar.SetMaxVal(maxHP);
     }
     private void OnDestroy()
