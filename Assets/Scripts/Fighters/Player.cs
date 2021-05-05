@@ -43,7 +43,7 @@ public class Player : Fighter
     private readonly List<int> trash = new List<int>();
 
     private const int START_CARDS_COUNT = 3;
-    private const int LEVEL_UP_EXP = 1;
+    private const int LEVEL_UP_EXP = 5;
 
     [SerializeField] private Hand hand;
     private void Awake()
@@ -159,10 +159,10 @@ public class Player : Fighter
         }
         //deck.Add(2);
         //deck.Add(3);
-        deck.Add(4);
-        deck.Add(5);
-        deck.Add(6);
-        deck.Add(7);
+        //deck.Add(4);
+        //deck.Add(5);
+        //deck.Add(6);
+        //deck.Add(7);
 
         //deck.Shuffle();
     }

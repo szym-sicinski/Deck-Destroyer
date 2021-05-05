@@ -4,11 +4,11 @@ using UnityEngine;
 public class Enemy : Fighter
 {
     private EnemyBehaviour behaviour;
-    private const int CHANCE_TO_ATTACK = 0; //% of chance to attack
+    private const int CHANCE_TO_ATTACK = 70; //% of chance to attack
 
     public void SetDifficulty(int difficulty) //Sets difficulty of enemy. Base: 10HP, 1 str & dex
     {
-        maxHP = currentHP = 10 + (int) (difficulty * 0.6f);
+        maxHP = currentHP = 15 + (int) (difficulty * 0.75f);
         healthBar.SetMaxVal(maxHP);
         healthBar.SetVal(currentHP);
         str = currentStr = 1 + (int)(difficulty * 0.5f);

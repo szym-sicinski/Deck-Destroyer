@@ -26,8 +26,7 @@ public class SpawnManager : MonoBehaviour //CHANGED ORDER OF SCRIPT EXECUTION. I
         deck = FindObjectOfType<Deck>();
 
         Player[] players = FindObjectsOfType<Player>();
-        //int maxNumberOfEnemies = enemiesSpawnSets.transform.childCount;
-        int maxNumberOfEnemies = 1;
+        int maxNumberOfEnemies = enemiesSpawnSets.transform.childCount;
 
         Transform chosenSpawnSet = playersSpawnSets.transform.Find("For " + players.Length);
         for (int i = 0; i < players.Length; i++)
@@ -41,7 +40,7 @@ public class SpawnManager : MonoBehaviour //CHANGED ORDER OF SCRIPT EXECUTION. I
         chosenSpawnSet = enemiesSpawnSets.transform.Find("For " + numberOfEnemies);
 
         //Some random difficulty
-        int difficulty = saveManager.level / ((int) Math.Round(numberOfEnemies - 0.5f) + 1);
+        int difficulty = (int) Math.Round((saveManager.level / numberOfEnemies) * 1.2f);
         if (saveManager.isHardFight)
         {
             difficulty += (int)Math.Round(difficulty / 4f);
