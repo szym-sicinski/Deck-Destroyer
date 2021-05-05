@@ -4,7 +4,7 @@ using UnityEngine;
 public class Enemy : Fighter
 {
     private EnemyBehaviour behaviour;
-    private const int CHANCE_TO_ATTACK = 75; //% of chance to attack
+    private const int CHANCE_TO_ATTACK = 0; //% of chance to attack
 
     public void SetDifficulty(int difficulty) //Sets difficulty of enemy. Base: 10HP, 1 str & dex
     {
@@ -38,7 +38,7 @@ public class Enemy : Fighter
     }
     IEnumerator WaitAndCast() //This is subtitue of animation I dont have
     {
-        yield return new WaitForSeconds(1.75f);
+        yield return new WaitForSeconds(1.75f); //TODO: CHANGE TO 1.75
         behaviour.CastBuff();
     }
 

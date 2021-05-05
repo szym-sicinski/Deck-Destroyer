@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour
 {
-    private SaveManager singleton;
     private MapGUIManager mapGUI;
 
     [SerializeField] private GameObject[] playersPrefabs;
@@ -43,7 +42,6 @@ public class SaveManager : MonoBehaviour
 
         SceneManager.sceneUnloaded += OnSceneExit;
         SceneManager.activeSceneChanged += OnSceneChange;
-        singleton = this;
 
 
         players[0] = Instantiate(playersPrefabs[0]).GetComponent<Player>();
@@ -60,11 +58,12 @@ public class SaveManager : MonoBehaviour
         switch (scene2.buildIndex)
         {
             case 1: // Change to map scene
-                if(bGiveExp)
+                ResetStats();
+                if (bGiveExp)
                 {
                     GiveEXP();
                 }
-                ResetStats();
+                bGiveExp = false;
                 break;
             case 2: // Change to Fight scene
                 PlayersEnabled(true);
@@ -92,7 +91,6 @@ public class SaveManager : MonoBehaviour
             player.ResetStats();
         }
         isHardFight = false;
-        bGiveExp = false;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)

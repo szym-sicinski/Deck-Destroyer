@@ -50,7 +50,7 @@ public class SpawnManager : MonoBehaviour //CHANGED ORDER OF SCRIPT EXECUTION. I
         for (int i = 0; i < numberOfEnemies; i++)
         {
             Vector3 spawnPos = chosenSpawnSet.Find("Spawner " + (i + 1)).position;
-            Enemy enemy = Instantiate(enemiesPrefabs[UnityEngine.Random.Range(0, 0)], spawnPos , Quaternion.identity, enemyTeam.transform).GetComponent<Enemy>(); //UnityEngine.Random.Range(0, enemiesPrefabs.Length)
+            Enemy enemy = Instantiate(enemiesPrefabs[UnityEngine.Random.Range(0, enemiesPrefabs.Length)], spawnPos , Quaternion.identity, enemyTeam.transform).GetComponent<Enemy>(); //UnityEngine.Random.Range(0, enemiesPrefabs.Length)
             enemy.SetDifficulty(difficulty);
         }
     }

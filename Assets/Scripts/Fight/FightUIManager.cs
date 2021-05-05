@@ -47,11 +47,10 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
     {
         foreach (Hand hand in hands)
         {
-            hand.GetComponent<Animator>().SetBool("isHidden", isPanelHidden);
+            hand.GetComponent<Animator>().SetBool("isHidden", isPanelHidden);           
             ChangeInteractableOfCards(hand.transform, !isPanelHidden); //In case some cards stay from other round
         }
     }
-
     public void EndTurnButtonInteraction(bool isInteractable) //Changes interactable of end turn button
     {
         endTurnButton.interactable = isInteractable;
@@ -65,12 +64,6 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
             ChangeInteractableOfCards(hand.transform, bLocking);
         }
     }
-
-    internal void ShowLevelUpScreen()
-    {
-        throw new NotImplementedException();
-    }
-
     public void ShowEndScreen(bool isVictoryscreen)
     {
         if (isVictoryscreen)

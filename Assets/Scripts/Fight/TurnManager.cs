@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class TurnManager : MonoBehaviour
 {
 
-
     private FightUIManager fightUIManager;
     private Player[] players;
     private Enemy[] enemies;
@@ -16,6 +15,7 @@ public class TurnManager : MonoBehaviour
     private SaveManager saveManager;
 
     private bool isStopped = true;
+    public bool endTurnBlockade;
     private void Start()
     {
         players = FindObjectsOfType<Player>();

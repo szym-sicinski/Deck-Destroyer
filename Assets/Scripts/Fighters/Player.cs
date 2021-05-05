@@ -152,13 +152,17 @@ public class Player : Fighter
     }
     public void MakeStarterDeck()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
             deck.Add(0);
             deck.Add(1);
         }
-        deck.Add(2);
-        deck.Add(3);
+        //deck.Add(2);
+        //deck.Add(3);
+        deck.Add(4);
+        deck.Add(5);
+        deck.Add(6);
+        deck.Add(7);
 
         //deck.Shuffle();
     }

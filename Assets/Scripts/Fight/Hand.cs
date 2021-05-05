@@ -8,6 +8,13 @@ public class Hand : MonoBehaviour
 {
     [SerializeField] private TMP_Text powerDisplay;
     [SerializeField] private FightUIManager fightUIManager;
+
+    private TurnManager turnManager;
+
+    private void Start()
+    {
+        turnManager = FindObjectOfType<TurnManager>();
+    }
     public void DestroyChildren() // Destroy cards in hand. Called in animation
     {
         for (int i = 0; i < transform.childCount; i++)

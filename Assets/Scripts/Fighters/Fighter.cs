@@ -52,9 +52,9 @@ abstract public class Fighter : MonoBehaviour
         particleSpawner = FindObjectOfType<ParticleSpawner>();
 
     }
-    public void Heal(int heal, bool spawnParticles = true) //Heal by val
+    public void Heal(float heal, bool spawnParticles = true) //Heal by %
     {
-        currentHP = Math.Min(maxHP, currentHP += heal);
+        currentHP = Math.Min(maxHP, (int)(currentHP * heal + currentHP));
         if(spawnParticles)
             particleSpawner.SpawnParticles(transform.position, ParticlesType.HEAL);
         healthBar.SetVal(currentHP);
