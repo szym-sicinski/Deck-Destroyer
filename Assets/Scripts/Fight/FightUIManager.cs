@@ -36,7 +36,7 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
         EndTurnButtonInteraction(false);
         ShowPanel(true);
         targetingSystem.UnmarkTargets();
-        turnManager.EndTurn();
+        //turnManager.EndTurn();
     }
     public void PlayerTurnStart() // Called on beninging of Player turn. Shows hands
     {

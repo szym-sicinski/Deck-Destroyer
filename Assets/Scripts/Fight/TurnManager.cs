@@ -14,7 +14,7 @@ public class TurnManager : MonoBehaviour
     private readonly Queue<Enemy> enemiesQueue = new Queue<Enemy>();
     private SaveManager saveManager;
 
-    private bool isStopped = true;
+    public bool isStopped = true;
     public bool endTurnBlockade;
     private void Start()
     {
@@ -92,7 +92,7 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    private void LoseFight()
+    public void LoseFight()
     {
         fightUIManager.ShowEndScreen(false);
         foreach (Player player in saveManager.players)
@@ -102,6 +102,11 @@ public class TurnManager : MonoBehaviour
 
     private void WinFight()
     {
+        foreach(Player player in saveManager.players)
+        {
+            if (!player.IsAlive)
+                Destroy(player.gameObject);
+        }
         fightUIManager.ShowEndScreen(true);
         saveManager.bGiveExp = true;
         saveManager.PlayersEnabled(false); //Disable heroes

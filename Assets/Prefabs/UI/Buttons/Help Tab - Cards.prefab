@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87afaa15dfaf624798775310c85770c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: 'Cards bla bla
-
-    first bla bla card
-
-    second bla bla card'
+  description: "LIst of cards and effects:\n\nSmack - Deals 5 + strength damage to
+    chosen target\n\nBlock - Owner gains 4 def + dexterity  points \n\nParry - You
+    get 3 + dexterity def points and deal 3 + strength damage to chosen target\n\nSteroids
+    - Chosen ally gains 3 strenght points until the end of fight \n\nDexterity elixir
+    - Chosen ally gains 3 dexterity points unitl the end of fight\n\nLife steal -
+    Deal 8 + strength damage to chosen target and heal by 10%\n\nHeal - Chosen ally
+    is healed by 20%\n\nFireball - Deal 2 + strength damage to ALL enemies"
   id: 0
 --- !u!1001 &2630570473638306747
 PrefabInstance:

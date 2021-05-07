@@ -15,7 +15,7 @@ abstract public class Fighter : MonoBehaviour
     protected int currentStr;
     protected int currentDef;
     protected int currentHP;
-    protected bool isAlive = true;
+    [SerializeField]protected bool isAlive = true;
 
     protected bool isMoving;
     protected bool isMarked;
@@ -145,7 +145,7 @@ abstract public class Fighter : MonoBehaviour
         animator.SetTrigger("die");
         isAlive = false;
     }
-    protected void StopAnimator() //Caled from Die animation
+    protected virtual void StopAnimator() //Caled from Die animation
     {
         animator.enabled = false;
         turnManager.EndFightCheck(this);

@@ -43,7 +43,7 @@ public class Player : Fighter
     private readonly List<int> trash = new List<int>();
 
     private const int START_CARDS_COUNT = 3;
-    private const int LEVEL_UP_EXP = 5;
+    private const int LEVEL_UP_EXP = 1;
 
     [SerializeField] private Hand hand;
     private void Awake()
@@ -65,7 +65,11 @@ public class Player : Fighter
         deck.Shuffle();
 
     }
-
+    protected override void StopAnimator()
+    {
+        animator.enabled = false;
+        turnManager.LoseFight();
+    }
     private void FindHand()
     {
         if (FindObjectsOfType<Player>().Length > 0)
@@ -144,6 +148,8 @@ public class Player : Fighter
         currentDef = 0;
         currentDex = dex;
         currentStr = str;
+        spriteRenderer.flipX = false;
+        isMoving = false;
     }
 
     public void CastCardEffect()
@@ -179,8 +185,6 @@ public class Player : Fighter
             return;
         }
         currentPower = power;
-        //if (trash.Count + deck.Count != 12)
-        //    Debug.LogError("CARDS LEAK");
         RefreshPowerDisplay();
         fightUIManager.PlayerTurnStart();
         FillHand();
@@ -233,6 +237,6 @@ public class Player : Fighter
     }
     private void OnDestroy()
     {
-        Debug.Log("Player destroyed");
+        FindObjectOfType<SaveManager>().OnPlayerDie();
     }
 }

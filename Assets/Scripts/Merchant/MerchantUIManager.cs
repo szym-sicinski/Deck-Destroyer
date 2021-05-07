@@ -9,6 +9,8 @@ public class MerchantUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject cardsToBuy;
     [SerializeField] private GameObject heroChoice;
+    [SerializeField] private GameObject maleChoice;
+    [SerializeField] private GameObject femaleChoice;
     [SerializeField] private TMP_Text moneyDisplay;
 
     private SaveManager saveManager;
@@ -17,12 +19,24 @@ public class MerchantUIManager : MonoBehaviour
     private Card chosenCard;
 
     private const int NUMBER_OF_CARDS_TO_BUY = 8;
-    private const int COST_OF_CARD = 800;
+    private const int COST_OF_CARD = 10;
     void Start()
     {
         saveManager = FindObjectOfType<SaveManager>();
         deck = FindObjectOfType<Deck>();
 
+        foreach (Player player in saveManager.players)
+        {
+            if (player.CompareTag("Player Female"))
+            {
+                femaleChoice.SetActive(true);
+            }
+            else if (player.CompareTag("Player Male"))
+            {
+                maleChoice.SetActive(true);
+            }
+        }
+        Debug.Log("Loading cards");
         for (int i = 0; i < NUMBER_OF_CARDS_TO_BUY; i++)
         {
             GameObject card = Instantiate(deck.cards[UnityEngine.Random.Range(0, deck.cards.Length)], cardsToBuy.transform);
@@ -36,6 +50,7 @@ public class MerchantUIManager : MonoBehaviour
                         }
                        });
         }
+        Debug.Log("Loading money");
 
         RefreshMoneyDisplay();
     }

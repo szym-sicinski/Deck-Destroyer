@@ -29,4 +29,11 @@ public class Hand : MonoBehaviour
     {
         fightUIManager.EndTurnButtonInteraction(true);
     }
+    private void EndTurnTrigger() //called from animation. Prevents start turn of enemies before card destroy. 
+    {
+        if(!turnManager.isStopped)
+        {
+            turnManager.EndTurn();
+        }
+    }
 }

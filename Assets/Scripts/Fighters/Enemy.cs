@@ -38,7 +38,7 @@ public class Enemy : Fighter
     }
     IEnumerator WaitAndCast() //This is subtitue of animation I dont have
     {
-        yield return new WaitForSeconds(1.75f); //TODO: CHANGE TO 1.75
+        yield return new WaitForSeconds(0.5f);
         behaviour.CastBuff();
     }
 

@@ -46,7 +46,6 @@ public class SaveManager : MonoBehaviour
 
         players[0] = Instantiate(playersPrefabs[0]).GetComponent<Player>();
         players[1] = Instantiate(playersPrefabs[1]).GetComponent<Player>();
-        //Instantiate(playersPrefabs[1]);
     }
 
     private void OnSceneExit(Scene scene)
@@ -64,6 +63,13 @@ public class SaveManager : MonoBehaviour
                     GiveEXP();
                 }
                 bGiveExp = false;
+                //foreach(Player player in players)
+                //{
+                //    if(!player.IsAlive)
+                //    {
+                //        Destroy(player.gameObject);
+                //    }
+                //}
                 break;
             case 2: // Change to Fight scene
                 PlayersEnabled(true);
@@ -112,5 +118,19 @@ public class SaveManager : MonoBehaviour
             moneyDelta =(int) GOLD_BOOST_HARD_FIGHT * moneyDelta;
         money += moneyDelta;
         return moneyDelta;
+    }
+    public void OnPlayerDie()
+    {
+        Debug.Log("On Player Die");
+        Player[] newPlayers = new Player[0];
+        foreach(Player player in players)
+        {
+            Debug.Log("player check");
+            if (player == null || !player.IsAlive)
+                continue;
+            newPlayers[0] = player;
+        }
+        players = newPlayers;
+        Debug.Log(players.Length);
     }
 }
