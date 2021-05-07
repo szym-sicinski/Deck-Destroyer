@@ -61,6 +61,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void DealDmgTrigger() //Called from animation
     {
         target.TakeDmg(dmgToDeal);
+        target.musicManager.PlaySound(SoundType.SMACK);
     }
     #region Attacks
     public IEnumerable AttackAllPlayers() //FIXME: WAIT

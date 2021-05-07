@@ -10,6 +10,7 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
     private TurnManager turnManager;
     private TargetingSystem targetingSystem;
     private SaveManager saveManager;
+    private MusicManager musicManager;
 
     [SerializeField] private Canvas lostScreen;
 
@@ -68,9 +69,9 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
     {
         if (isVictoryscreen)
         {
+            //musicManager.PlaySound(SoundType.COINS); //THIS LINE BREAKS GAME FOR SOME REASON
             winScreen.gameObject.SetActive(true);
             goldReward.SetText(saveManager.RewardGold().ToString());
-
         }
         else
             lostScreen.gameObject.SetActive(true);

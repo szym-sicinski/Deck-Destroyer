@@ -14,6 +14,7 @@ public class MerchantUIManager : MonoBehaviour
     [SerializeField] private TMP_Text moneyDisplay;
 
     private SaveManager saveManager;
+    private MusicManager musicManager;
     private Deck deck;
 
     private Card chosenCard;
@@ -23,6 +24,8 @@ public class MerchantUIManager : MonoBehaviour
     void Start()
     {
         saveManager = FindObjectOfType<SaveManager>();
+        musicManager = FindObjectOfType<MusicManager>();
+
         deck = FindObjectOfType<Deck>();
 
         foreach (Player player in saveManager.players)
@@ -71,6 +74,7 @@ public class MerchantUIManager : MonoBehaviour
                 saveManager.money -= COST_OF_CARD;
                 RefreshMoneyDisplay();
                 heroChoice.SetActive(false);
+                musicManager.PlaySound(SoundType.COINS);
                 break;
             }
         }

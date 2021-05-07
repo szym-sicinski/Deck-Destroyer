@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour
 {
-    private MapGUIManager mapGUI;
+    //private MapGUIManager mapGUI;
 
     [SerializeField] private GameObject[] playersPrefabs;
     public int level;
@@ -15,6 +15,8 @@ public class SaveManager : MonoBehaviour
     public bool isHardFight;
     public int money;
     public bool bGiveExp;
+
+    private MusicManager musicManager;
 
     private const int GOLD_MIN = 25;
     private const int GOLD_MAX = 75;
@@ -29,7 +31,7 @@ public class SaveManager : MonoBehaviour
         else
             if (instance != this)
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             Destroy(gameObject);
         }
 
@@ -38,8 +40,9 @@ public class SaveManager : MonoBehaviour
     }
     private void Start()
     {
-        mapGUI = FindObjectOfType<MapGUIManager>();
-
+        //mapGUI = FindObjectOfType<MapGUIManager>();
+        musicManager = FindObjectOfType<MusicManager>();
+        
         SceneManager.sceneUnloaded += OnSceneExit;
         SceneManager.activeSceneChanged += OnSceneChange;
 
@@ -63,18 +66,12 @@ public class SaveManager : MonoBehaviour
                     GiveEXP();
                 }
                 bGiveExp = false;
-                //foreach(Player player in players)
-                //{
-                //    if(!player.IsAlive)
-                //    {
-                //        Destroy(player.gameObject);
-                //    }
-                //}
                 break;
             case 2: // Change to Fight scene
                 PlayersEnabled(true);
                 break;
             case 3: // Change to Merchant scene
+                musicManager.PlaySound(SoundType.DOOR);
                 break;
         }
     }
@@ -86,6 +83,7 @@ public class SaveManager : MonoBehaviour
         {
             if (player.GiveExp(exp))
             {
+                musicManager.PlaySound(SoundType.LEVEL_UP);
                 statsDisplayManager.ShowStats(true);
             }
         }
@@ -118,19 +116,5 @@ public class SaveManager : MonoBehaviour
             moneyDelta =(int) GOLD_BOOST_HARD_FIGHT * moneyDelta;
         money += moneyDelta;
         return moneyDelta;
-    }
-    public void OnPlayerDie()
-    {
-        Debug.Log("On Player Die");
-        Player[] newPlayers = new Player[0];
-        foreach(Player player in players)
-        {
-            Debug.Log("player check");
-            if (player == null || !player.IsAlive)
-                continue;
-            newPlayers[0] = player;
-        }
-        players = newPlayers;
-        Debug.Log(players.Length);
     }
 }

@@ -29,6 +29,7 @@ abstract public class Fighter : MonoBehaviour
     [HideInInspector] public ParticleSpawner particleSpawner;
 
     [SerializeField] protected GameObject highlight;
+    public MusicManager musicManager;
 
     #region Getters And Setters
     public int CurrentHP { get => currentHP; set => currentHP = value; }
@@ -43,6 +44,10 @@ abstract public class Fighter : MonoBehaviour
     public Vector3 InitialPos { get => initialPos; set => initialPos = value; }
     #endregion
 
+    protected virtual void Start()
+    {
+        musicManager = FindObjectOfType<MusicManager>();
+    }
     protected virtual void OnEnable()
     {
         turnManager = FindObjectOfType<TurnManager>();
@@ -50,7 +55,6 @@ abstract public class Fighter : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         targetingSystem = FindObjectOfType<TargetingSystem>();
         particleSpawner = FindObjectOfType<ParticleSpawner>();
-
     }
     public void Heal(float heal, bool spawnParticles = true) //Heal by %
     {
@@ -58,6 +62,7 @@ abstract public class Fighter : MonoBehaviour
         if(spawnParticles)
             particleSpawner.SpawnParticles(transform.position, ParticlesType.HEAL);
         healthBar.SetVal(currentHP);
+        musicManager.PlaySound(SoundType.SPELL);
     }
     public void Heal(bool spawnParticles = true) //Heal by 35%
     {
@@ -65,10 +70,13 @@ abstract public class Fighter : MonoBehaviour
         if(spawnParticles)
             particleSpawner.SpawnParticles(transform.position, ParticlesType.HEAL);
         healthBar.SetVal(currentHP);
+        musicManager.PlaySound(SoundType.SPELL);
+
     }
     public void AddBlock(int block)
     {
         currentDef = Math.Max(0,block + currentDex)+ currentDef; //in case current dex < 0
+        musicManager.PlaySound(SoundType.BLOCK);
         animator.SetTrigger("block");
     }
     private void OnMouseDown()
@@ -115,13 +123,15 @@ abstract public class Fighter : MonoBehaviour
     {
         currentStr += str;
         particleSpawner.SpawnParticles(transform.position, ParticlesType.BUFF_STR);
+        musicManager.PlaySound(SoundType.SPELL);
+
     }
 
     public void BuffDex(int dex)
     {
         CurrentDex += dex;
         particleSpawner.SpawnParticles(transform.position, ParticlesType.BUFF_DEX);
-
+        musicManager.PlaySound(SoundType.SPELL);
     }
 
     abstract public void MakeTurn();
@@ -142,6 +152,7 @@ abstract public class Fighter : MonoBehaviour
     protected void Die()
     {
         MarkAsTarget(false);
+        musicManager.PlaySound(SoundType.DIE);
         animator.SetTrigger("die");
         isAlive = false;
     }

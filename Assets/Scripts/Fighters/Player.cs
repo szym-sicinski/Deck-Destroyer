@@ -43,7 +43,7 @@ public class Player : Fighter
     private readonly List<int> trash = new List<int>();
 
     private const int START_CARDS_COUNT = 3;
-    private const int LEVEL_UP_EXP = 1;
+    private const int LEVEL_UP_EXP = 5;
 
     [SerializeField] private Hand hand;
     private void Awake()
@@ -152,9 +152,11 @@ public class Player : Fighter
         isMoving = false;
     }
 
-    public void CastCardEffect()
+    public void CastCardEffect() //Called from animaton
     {
         targetingSystem.CastCardEffect();
+        musicManager.PlaySound(SoundType.SMACK);
+
     }
     public void MakeStarterDeck()
     {
@@ -235,8 +237,5 @@ public class Player : Fighter
         maxHP += (int) (hpDelta * maxHP);
         healthBar.SetMaxVal(maxHP);
     }
-    private void OnDestroy()
-    {
-        FindObjectOfType<SaveManager>().OnPlayerDie();
-    }
+
 }

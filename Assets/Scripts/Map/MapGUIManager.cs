@@ -89,8 +89,11 @@ public class MapGUIManager : MonoBehaviour
                 SceneManager.LoadScene(3);
                 break;
             case LocationType.CAMPFIRE: //Heal, show heal info, respawn locations
+                //Debug.Log("Rest");
+                Debug.Log(saveManager.players.Length);
                 foreach (Player player in saveManager.players)
                 {
+                    Debug.Log("Rest : " + player.ToString());
                     player.Heal(false);
                 }
                 restInfo.gameObject.SetActive(true);

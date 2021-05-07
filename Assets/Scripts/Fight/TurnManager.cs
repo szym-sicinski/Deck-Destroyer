@@ -63,6 +63,7 @@ public class TurnManager : MonoBehaviour
     }
     public void EndFightCheck(Fighter fighter) //Checks conditions of ending fight
     {
+        Debug.Log("End fight check");
         int aliveCount = 0;
         if (fighter is Player) //If its player check only if all players are dead
         {
@@ -79,11 +80,13 @@ public class TurnManager : MonoBehaviour
         }
         else //else check if all enemies are dead
         {
+            Debug.Log("Enemy");
             foreach (Enemy enemy in enemies)
             {
                 if (enemy.IsAlive)
                     aliveCount++;
             }
+            Debug.Log("Alive: " + aliveCount);
             if (aliveCount == 0)
             {
                 WinFight();
@@ -102,11 +105,7 @@ public class TurnManager : MonoBehaviour
 
     private void WinFight()
     {
-        foreach(Player player in saveManager.players)
-        {
-            if (!player.IsAlive)
-                Destroy(player.gameObject);
-        }
+        Debug.Log("fight won");
         fightUIManager.ShowEndScreen(true);
         saveManager.bGiveExp = true;
         saveManager.PlayersEnabled(false); //Disable heroes
