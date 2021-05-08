@@ -46,8 +46,9 @@ public class Player : Fighter
     private const int LEVEL_UP_EXP = 5;
 
     [SerializeField] private Hand hand;
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         DontDestroyOnLoad(gameObject);
         MakeStarterDeck();
         currentHP = maxHP;
@@ -148,7 +149,7 @@ public class Player : Fighter
         currentDef = 0;
         currentDex = dex;
         currentStr = str;
-        spriteRenderer.flipX = false;
+        //spriteRenderer.flipX = false;
         isMoving = false;
     }
 
@@ -237,5 +238,8 @@ public class Player : Fighter
         maxHP += (int) (hpDelta * maxHP);
         healthBar.SetMaxVal(maxHP);
     }
-
+    private void OnDestroy()
+    {
+        Debug.Log("PLayer destroyed ");
+    }
 }

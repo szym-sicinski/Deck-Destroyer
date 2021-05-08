@@ -98,8 +98,7 @@ public class TurnManager : MonoBehaviour
     public void LoseFight()
     {
         fightUIManager.ShowEndScreen(false);
-        foreach (Player player in saveManager.players)
-            Destroy(player.gameObject);
+        //Time.timeScale = 0;
         Destroy(saveManager.gameObject);
     }
 

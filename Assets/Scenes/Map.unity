@@ -859,7 +859,7 @@ MonoBehaviour:
   playersPrefabs:
   - {fileID: 2211773250649547919, guid: 986e682a14c79934ebb850757b4e6c4c, type: 3}
   - {fileID: 1912996852738961993, guid: 5c81788ca373c9348b5f3f56b61960a8, type: 3}
-  level: 1
+  level: 0
   players:
   - {fileID: 0}
   - {fileID: 0}

@@ -25,6 +25,7 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Awake, singleton");
         // SINGLETON
         if (instance == null)
             instance = this;
@@ -34,22 +35,23 @@ public class SaveManager : MonoBehaviour
             //gameObject.SetActive(false);
             Destroy(gameObject);
         }
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        Debug.Log("Awake, loading players");
+        for (int i = 0; i < playersPrefabs.Length; i++)
+        {
+            Debug.Log("Player " + i + " loading");
+            players[i] = Instantiate(playersPrefabs[i]).GetComponent<Player>();
+            Debug.Log("Player " + players[i].name + " loaded");
+        }
         DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {
         //mapGUI = FindObjectOfType<MapGUIManager>();
         musicManager = FindObjectOfType<MusicManager>();
-        
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneExit;
         SceneManager.activeSceneChanged += OnSceneChange;
-
-        for(int i = 0; i < playersPrefabs.Length; i++)
-        {
-            players[i] = Instantiate(playersPrefabs[i]).GetComponent<Player>();
-        }
     }
 
     private void OnSceneExit(Scene scene)
@@ -60,6 +62,11 @@ public class SaveManager : MonoBehaviour
     {
         switch (scene2.buildIndex)
         {
+            case 0:
+                instance = null;
+                players[0] = null;
+                players[1] = null;
+                break;
             case 1: // Change to map scene
                 ResetStats();
                 if (bGiveExp)
@@ -117,5 +124,16 @@ public class SaveManager : MonoBehaviour
             moneyDelta =(int) GOLD_BOOST_HARD_FIGHT * moneyDelta;
         money += moneyDelta;
         return moneyDelta;
+    }
+
+    private void OnDestroy()
+    {
+        instance = null;
+        foreach(Player player in players)
+        {
+            Destroy(player.gameObject);
+        }
+        Debug.Log("Save Manager destroyed");
+        //Destroy(this.gameObject);
     }
 }

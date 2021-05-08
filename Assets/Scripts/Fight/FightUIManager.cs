@@ -13,12 +13,21 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
     private MusicManager musicManager;
 
     [SerializeField] private Canvas lostScreen;
+    [SerializeField] private TMP_Text topScoreDisplay;
+    [SerializeField] private TMP_Text currentScoreDisplay;
+    [SerializeField] private TMP_Text subTitle;
+
+    private const string congratulation = "Congratulation! You beat your top score";
+    private const string keepTrying = "Keep Trying!";
+    private const string drawScore = "You reached top score!";
 
     [SerializeField] private Canvas winScreen;
     [SerializeField] private TMP_Text goldReward;
 
     [SerializeField] private Hand[] hands;
     [SerializeField] private Button endTurnButton;
+
+
     private void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
@@ -67,13 +76,36 @@ public class FightUIManager : MonoBehaviour // Handles UI of fight scene
     }
     public void ShowEndScreen(bool isVictoryscreen)
     {
-        if (isVictoryscreen)
+        if (isVictoryscreen) //Show victory screen
         {
             //musicManager.PlaySound(SoundType.COINS); //THIS LINE BREAKS GAME FOR SOME REASON
             winScreen.gameObject.SetActive(true);
             goldReward.SetText(saveManager.RewardGold().ToString());
         }
-        else
+        else //else show lost screen
+        {
+            int topScore = PlayerPrefs.GetInt("maxScore", 0);
+            Debug.Log(topScore);
+            if ( topScore < saveManager.level )
+            {
+                subTitle.SetText(congratulation);
+                PlayerPrefs.SetInt("maxScore", saveManager.level);
+            }
+            else
+                if( topScore == saveManager.level)
+                    subTitle.SetText(drawScore);
+                else
+                    subTitle.SetText(keepTrying);
+
+            topScoreDisplay.SetText(topScore.ToString());
+            currentScoreDisplay.SetText(saveManager.level.ToString());
+
             lostScreen.gameObject.SetActive(true);
+
+        }
+    }
+    public void Exit()
+    {
+        Application.Quit();
     }
 }

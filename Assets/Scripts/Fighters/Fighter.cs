@@ -12,7 +12,7 @@ abstract public class Fighter : MonoBehaviour
     [SerializeField] protected HealthBar healthBar;
 
     protected int currentDex;
-    protected int currentStr;
+    [SerializeField] protected int currentStr;
     protected int currentDef;
     protected int currentHP;
     [SerializeField]protected bool isAlive = true;
@@ -43,7 +43,10 @@ abstract public class Fighter : MonoBehaviour
     public int CurrentDef { get => currentDef; set => currentDef = value; }
     public Vector3 InitialPos { get => initialPos; set => initialPos = value; }
     #endregion
-
+    protected virtual void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     protected virtual void Start()
     {
         musicManager = FindObjectOfType<MusicManager>();
@@ -52,7 +55,7 @@ abstract public class Fighter : MonoBehaviour
     {
         turnManager = FindObjectOfType<TurnManager>();
         animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        
         targetingSystem = FindObjectOfType<TargetingSystem>();
         particleSpawner = FindObjectOfType<ParticleSpawner>();
     }
@@ -130,7 +133,7 @@ abstract public class Fighter : MonoBehaviour
 
     public void BuffDex(int dex)
     {
-        CurrentDex += dex;
+        currentDex += dex;
         particleSpawner.SpawnParticles(transform.position, ParticlesType.BUFF_DEX);
         musicManager.PlaySound(SoundType.SPELL);
     }

@@ -2907,7 +2907,7 @@ GameObject:
   - component: {fileID: 8767855585103022902}
   - component: {fileID: 8795776641281000645}
   m_Layer: 31
-  m_Name: main
+  m_Name: Main pallet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
