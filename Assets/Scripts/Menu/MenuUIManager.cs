@@ -15,6 +15,6 @@ public class MenuUIManager : MonoBehaviour
     }
     public void Exit()
     {
-        
+        Application.Quit();
     }
 }
