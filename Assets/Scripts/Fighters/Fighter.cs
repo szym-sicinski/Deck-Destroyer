@@ -68,10 +68,11 @@ abstract public class Fighter : MonoBehaviour
     {
         currentHP = Math.Min(maxHP, (int) Math.Round(currentHP * 0.35f + currentHP));
         if(spawnParticles)
+        {
+            musicManager.PlaySound(SoundType.SPELL);
             particleSpawner.SpawnParticles(transform.position, ParticlesType.HEAL);
+        }
         healthBar.SetVal(currentHP);
-        musicManager.PlaySound(SoundType.SPELL);
-
     }
     public void AddBlock(int block)
     {
