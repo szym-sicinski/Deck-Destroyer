@@ -20,7 +20,7 @@ public class MerchantUIManager : MonoBehaviour
     private Card chosenCard;
 
     private const int NUMBER_OF_CARDS_TO_BUY = 8;
-    private const int COST_OF_CARD = 700;
+    private const int COST_OF_CARD = 500;
     void Start()
     {
         saveManager = FindObjectOfType<SaveManager>();

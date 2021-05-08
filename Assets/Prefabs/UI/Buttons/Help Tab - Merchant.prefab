@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87afaa15dfaf624798775310c85770c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: 'Here you can buy more cards. Each card costs 700 gold
+  description: 'Here you can buy more cards. Each card costs 500 gold
 
 
     After

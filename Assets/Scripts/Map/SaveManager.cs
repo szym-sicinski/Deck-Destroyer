@@ -46,9 +46,10 @@ public class SaveManager : MonoBehaviour
         SceneManager.sceneUnloaded += OnSceneExit;
         SceneManager.activeSceneChanged += OnSceneChange;
 
-
-        players[0] = Instantiate(playersPrefabs[0]).GetComponent<Player>();
-        players[1] = Instantiate(playersPrefabs[1]).GetComponent<Player>();
+        for(int i = 0; i < playersPrefabs.Length; i++)
+        {
+            players[i] = Instantiate(playersPrefabs[i]).GetComponent<Player>();
+        }
     }
 
     private void OnSceneExit(Scene scene)

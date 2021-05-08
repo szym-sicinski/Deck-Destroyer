@@ -8,7 +8,7 @@ public class Enemy : Fighter
 
     public void SetDifficulty(int difficulty) //Sets difficulty of enemy. Base: 10HP, 1 str & dex
     {
-        maxHP = currentHP = 15 + (int) (difficulty * 0.75f) *3;
+        maxHP = currentHP = 30 + (int) (difficulty * 0.75f) *2;
         healthBar.SetMaxVal(maxHP);
         healthBar.SetVal(currentHP);
         str = currentStr = 1 + (int)(difficulty * 0.5f);
