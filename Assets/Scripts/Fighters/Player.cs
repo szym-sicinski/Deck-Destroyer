@@ -64,6 +64,8 @@ public class Player : Fighter
 
         FindHand();
         deck.Shuffle();
+        spriteRenderer.flipX = false;
+
 
     }
     protected override void StopAnimator()

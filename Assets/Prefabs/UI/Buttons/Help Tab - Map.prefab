@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: "On top screen you can see potential locations you can choose. \nLocation
-    types:\nSingle Axe - normal fight\nCrossed two axes - hard fight\nSack - Merchant\nFire
-    - Camp where you rest\nQuestion mark - Random location"
+    types:\n\nSingle Axe - normal fight\n\nCrossed two axes - hard fight\n\nSack
+    - Merchant\n\nFire - Camp where you rest\n\nQuestion mark - Random location\n\nPress
+    ESC to exit."
   id: 0
 --- !u!1001 &2129622399709950137
 PrefabInstance:

@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87afaa15dfaf624798775310c85770c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: 'Here you can buy more cards. Each card costs 500 gold
-
-
-    After
-    you click on card you can choose hero to be owner of card or return '
+  description: "Here you can buy more cards. Each card costs 500 gold\n\nAfter you
+    click on card you can choose hero to be owner of card or return \n\nPress ESC
+    to exit."
   id: 0
 --- !u!1001 &5245050632867461696
 PrefabInstance:

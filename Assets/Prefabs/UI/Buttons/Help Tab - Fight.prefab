@@ -40,7 +40,10 @@ MonoBehaviour:
 
 
     Fight will
-    end when you kill all enemies or ONE OF your heroes die.'
+    end when you kill all enemies or ONE OF your heroes die.
+
+
+    Press ESC to exit.'
   id: 0
 --- !u!1001 &8439479457699695041
 PrefabInstance:
